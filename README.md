@@ -9,8 +9,8 @@
 
 ```bash
 Token length: 31617
-Ids length: 2045
-Compression ratio: 15.4606X
+Ids length: 3245
+Compression ratio: 9.7433X
 ```
 
 ### Usage
