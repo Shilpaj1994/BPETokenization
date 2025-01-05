@@ -1,12 +1,7 @@
 references/
 tokenization.ipynb
+tokenizer.json
 __pycache__/
-*.py[cod]
-*$py.class
-.env
-.venv
-env/
-venv/
-ENV/
-*.log
-.DS_Store
+
+# Add LFS tracking for large files
+*.json filter=lfs diff=lfs merge=lfs -text
