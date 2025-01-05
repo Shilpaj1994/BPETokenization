@@ -1,11 +1,14 @@
-title: Text Tokenization
-emoji: 🚀
-colorFrom: blue
-colorTo: red
-sdk: gradio
-sdk_version: 3.50.2
-app_file: app.py
+---
+title: TextTokenization
+emoji: 🐠
+colorFrom: indigo
+colorTo: indigo
+sdk: docker
 pinned: false
+license: mit
+short_description: Text Tokenization using Byte-Pair Encoding (BPE)
+---
+
 
 # Tokenization
 
