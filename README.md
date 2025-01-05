@@ -1,12 +1,31 @@
----
-title: TextTokenization
-emoji: 🐠
-colorFrom: indigo
-colorTo: indigo
-sdk: docker
-pinned: false
-license: mit
-short_description: Text Tokenization using Byte-Pair Encoding (BPE)
+# Byte Pair Encoding (BPE) Implementation
+
+**App Link: [Text Tokenization](https://huggingface.co/spaces/Shilpaj/TextTokenization)**
+
+`dataset.txt`: Downloaded from [Link](https://ai4bharat.iitm.ac.in/datasets/sangraha)  
+`byte_pair_encoding.py`: Implementation of BPE  
+`tokenizer.json`: Saved tokens
+
+
+```bash
+Token length: 31617
+Ids length: 2045
+Compression ratio: 15.4606X
+```
+
+### Usage
+
+```bash
+# Train the BPE to create tokens
+$ python byte_pair_encoding.py
+```
+
+```bash
+# Run the app
+$ python app.py
+```
+
+
 ---
 
 
@@ -190,28 +209,3 @@ Regex is both:
   - Phonetic annotations (e.g., furigana in Japanese).
 
 ---
-
-
-
-## Byte Pair Encoding (BPE) Implementation
-
-`dataset.txt`: Downloaded from [Link](https://ai4bharat.iitm.ac.in/datasets/sangraha)
-`byte_pair_encoding.py`: Implementation of BPE
-`tokenizer.json`: Saved tokens
-
-
-```bash
-Token length: 31617
-Ids length: 2045
-Compression ratio: 15.4606X
-```
-
-
-
-### Usage
-
-```bash
-$ python byte_pair_encoding.py
-```
-
-
