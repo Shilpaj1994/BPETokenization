@@ -1,0 +1,10 @@
+flask
+numpy
+transformers
+torch
+gradio 
+tqdm
+fastapi
+uvicorn
+python-multipart
+jinja2

@@ -1,0 +1,778 @@
+/* Move these keyframes to the top */
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes animate {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+}
+
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Important: Set background color immediately on html */
+html {
+    background: #000428;
+}
+
+/* Body styles with gradient */
+body {
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+    width: 100%;
+    background: linear-gradient(-45deg, #000428, #004e92, #000428, #002454);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+/* Add a mesh overlay */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);
+    background-size: 20px 20px;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.container {
+    position: relative;
+    z-index: 2;
+    width: 90%;
+    min-width: 320px;
+    max-width: 1400px;
+    margin: 40px auto;
+    padding: 40px;
+    font-family: Arial, sans-serif;
+    background: rgba(10, 12, 25, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    min-height: 85vh;
+}
+
+.btn {
+    background: linear-gradient(90deg, #4A00E0, #8E2DE2);
+    border: none;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 1rem 0;
+    box-shadow: 0 4px 15px rgba(74, 0, 224, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.btn:hover {
+    background: linear-gradient(90deg, #8E2DE2, #4A00E0);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(74, 0, 224, 0.4);
+}
+
+.btn:active {
+    transform: translateY(1px);
+}
+
+.text-box {
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin: 10px 0;
+    min-height: 150px;
+    max-height: 400px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    background: rgba(15, 15, 25, 0.7);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    letter-spacing: 0.2px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    width: 100%;
+}
+
+.hidden {
+    display: none;
+}
+
+h1, h2 {
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+#upload-section {
+    text-align: center;
+    padding: 40px 0;
+}
+
+/* Add these styles */
+.canvas-container {
+    position: relative;
+    width: 100%;
+    height: 600px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+    background-color: #f8f9fa;
+}
+
+.canvas-container canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.plot-controls {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.plot-controls label {
+    display: block;
+    margin: 5px 0;
+}
+
+.plot-controls input[type="range"] {
+    width: 100%;
+}
+
+.pcl-stats {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(15, 15, 25, 0.9);
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    pointer-events: none;
+    color: #ffffff;
+    font-weight: 500;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.pcl-stats p {
+    margin: 0;
+    padding: 2px 0;
+    color: #ffffff;
+}
+
+/* Add the font import at the top */
+@import url('https://fonts.googleapis.com/css?family=Space%20Grotesk:700|Space%20Grotesk:400');
+
+/* Add the custom properties */
+:root {
+    --m: 2rem;
+    --button-bg: #141516;
+    --border-width: 3px;
+    --border-radius: 100px;
+    --glow-spread: 40px;
+}
+
+/* Update the gradient-btn class */
+.gradient-btn {
+    position: relative;
+    padding: 1em 2em;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: var(--m);
+    font-weight: 500;
+    color: #fff;
+    background: var(--button-bg);
+    border: var(--border-width) solid transparent;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.gradient-btn::before,
+.gradient-btn::after {
+    content: '';
+    position: absolute;
+    inset: calc(-1 * var(--border-width));
+    border-radius: var(--border-radius);
+    background: linear-gradient(
+        90deg,
+        #FF8A00,
+        #e52e71,
+        #FF8A00,
+        #e52e71
+    );
+    background-size: 300% 100%;
+    animation: moveGradient 2s linear infinite;
+    z-index: -2;
+}
+
+.gradient-btn::after {
+    filter: blur(var(--glow-spread));
+    opacity: 0.7;
+    z-index: -1;
+}
+
+.gradient-btn:hover::before,
+.gradient-btn:hover::after {
+    animation: moveGradient 1s linear infinite;
+}
+
+@keyframes moveGradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 150% 50%;
+    }
+}
+
+/* Media query for responsive design */
+@media screen and (max-width: 768px) {
+    :root {
+        --m: 1.5rem;
+        --border-width: 2px;
+        --glow-spread: 20px;
+    }
+}
+
+/* New button styles */
+.glow-button {
+    position: relative;
+    width: 300px;
+    padding: 16px 32px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 24px;
+    color: #ffffff;
+    background: #141516;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    overflow: hidden;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.glow-button::before {
+    content: '';
+    position: absolute;
+    left: -2px;
+    top: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: 50px;
+    background: linear-gradient(
+        90deg,
+        #FF8A00,
+        #e52e71,
+        #FF8A00,
+        #e52e71
+    );
+    background-size: 300% 100%;
+    z-index: -2;
+}
+
+.glow-button::after {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    border-radius: 48px;
+    background: #141516;
+    z-index: -1;
+}
+
+.glow-button:hover::before {
+    animation: borderRotate 2s linear infinite;
+}
+
+@keyframes borderRotate {
+    from {
+        background-position: 0% center;
+    }
+    to {
+        background-position: 200% center;
+    }
+}
+
+/* Update text colors and styles */
+h1 {
+    color: #ffffff;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    letter-spacing: 0.5px;
+}
+
+h2 {
+    color: #e0e0ff;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.8rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    letter-spacing: 0.3px;
+    font-weight: 600;
+    background: linear-gradient(90deg, #ffffff, #e0e0ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+}
+
+/* Update container background for better contrast */
+.container {
+    background: rgba(10, 12, 25, 0.85);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+}
+
+/* Update text-box for better readability */
+.text-box {
+    background: rgba(15, 15, 25, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #E0E0FF !important;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    letter-spacing: 0.2px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    font-family: 'Space Grotesk', sans-serif;
+}
+
+/* Update the text sections for better contrast */
+#text-section h2,
+#processed-section h2,
+#augmented-section h2 {
+    position: relative;
+    padding-left: 0.5rem;
+}
+
+#text-section h2::before,
+#processed-section h2::before,
+#augmented-section h2::before {
+    content: '';
+    position: absolute;
+    left: -5px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 70%;
+    background: linear-gradient(180deg, #FF8A00, #e52e71);
+    border-radius: 2px;
+}
+
+/* Add new styles for the reset button */
+#reset-btn {
+    background: linear-gradient(90deg, #FF416C, #FF4B2B);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(255, 65, 108, 0.3);
+    margin: 2rem auto;
+    display: block;
+    width: fit-content;
+}
+
+#reset-btn:hover {
+    background: linear-gradient(90deg, #FF4B2B, #FF416C);
+    box-shadow: 0 6px 20px rgba(255, 65, 108, 0.4);
+}
+
+/* Update container to handle centered button */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    min-height: 400px;
+}
+
+/* Style the Process Data and Augment Data buttons */
+#process-btn, #decode-btn {
+    /* Remove all individual styles as they're handled by .btn class */
+}
+
+/* Update section headings */
+h2 {
+    color: #E0E0FF !important;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.8rem;
+    margin-top: 2rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    font-weight: 600;
+    background: none;
+    -webkit-text-fill-color: #E0E0FF;
+}
+
+/* Description section styles */
+.description-section {
+    text-align: center;
+    margin: 2rem auto;
+    max-width: 800px;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.description-text {
+    color: #E0E0FF;
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    font-family: 'Space Grotesk', sans-serif;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.supported-types {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    text-align: left;
+}
+
+.type-item {
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.type-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.type-item:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.type-title {
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    font-family: 'Space Grotesk', sans-serif;
+}
+
+.type-desc {
+    color: #E0E0FF;
+    font-size: 0.9rem;
+    opacity: 0.9;
+    font-family: 'Space Grotesk', sans-serif;
+}
+
+/* Sample buttons inside type-item */
+.type-item .sample-buttons {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.type-item .sample-btn {
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: #ffffff;
+    font-family: 'Space Grotesk', sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.type-item .sample-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+}
+
+/* Animation for sample buttons */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.sample-buttons.show {
+    display: flex;
+    animation: slideDown 0.3s ease-out;
+}
+
+/* Operation description styles */
+.operation-description {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: rgba(74, 0, 224, 0.1);
+    border-left: 4px solid #4A00E0;
+    border-radius: 0 8px 8px 0;
+    color: #E0E0FF;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    animation: slideDown 0.3s ease-out;
+}
+
+.operation-description ul {
+    margin: 0.5rem 0 0 1.2rem;
+}
+
+.operation-description li {
+    margin: 0.3rem 0;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Add these styles to your existing CSS */
+.sample-section {
+    text-align: center;
+    padding: 1rem 0;
+}
+
+.sample-section h3 {
+    color: #ffffff;
+    font-family: 'Space Grotesk', sans-serif;
+    margin-bottom: 1.5rem;
+    font-size: 1.3rem;
+    font-weight: 600;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.sample-buttons {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    margin: 1.5rem 0;
+}
+
+.sample-btn {
+    padding: 8px 16px;
+    background: linear-gradient(to bottom, #ffffff 0%, #f3f3f3 100%);
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: #333333;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 400;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.sample-btn:hover {
+    background: linear-gradient(to bottom, #f3f3f3 0%, #e6e6e6 100%);
+    border-color: #adadad;
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.sample-btn:active {
+    background: #e6e6e6;
+    border-color: #adadad;
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    transform: translateY(1px);
+}
+
+.sample-description {
+    color: #E0E0FF;
+    font-size: 0.9rem;
+    opacity: 0.8;
+    margin-top: 1rem;
+}
+
+/* Add these new styles */
+.input-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.sample-section {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: 8px;
+}
+
+.sample-section h3 {
+    color: #ffffff;
+    font-family: 'Space Grotesk', sans-serif;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+.sample-buttons {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    margin: 1rem 0;
+}
+
+.separator {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 1rem 0;
+}
+
+.separator::before,
+.separator::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    margin: 0 1.5rem;
+}
+
+.separator span {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-family: 'Space Grotesk', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+#upload-section {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+/* Update existing styles */
+.type-item {
+    cursor: default;
+}
+
+.type-item:hover {
+    transform: none;
+}
+
+/* New glow-on-hover effect for sample buttons */
+.glow-on-hover {
+    /* Remove these styles as they're no longer needed */
+}
+
+/* Add styles for decode button */
+/* #decode-btn {
+    background: linear-gradient(90deg, #4A00E0, #8E2DE2);
+    border: none;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-weight: 600;
+    margin: 1rem 0;
+    box-shadow: 0 4px 15px rgba(74, 0, 224, 0.3);
+}
+
+#decode-btn:hover {
+    background: linear-gradient(90deg, #8E2DE2, #4A00E0);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(74, 0, 224, 0.4);
+} */
+
+/* Update section styles to include decoded section */
+#decoded-section {
+    margin-top: 2rem;
+}
+
+#decoded-section h2 {
+    color: #E0E0FF;
+}
+
+/* Style both Process Text and Decode Tokens buttons consistently */
+#process-btn, #decode-btn {
+    background: linear-gradient(90deg, #4A00E0, #8E2DE2);
+    border: none;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 1rem 0;
+    box-shadow: 0 4px 15px rgba(74, 0, 224, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#process-btn:hover, #decode-btn:hover {
+    background: linear-gradient(90deg, #8E2DE2, #4A00E0);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(74, 0, 224, 0.4);
+}
+
+#process-btn:active, #decode-btn:active {
+    transform: translateY(1px);
+}
+
+/* Create a new class specifically for these action buttons */
+.action-btn {
+    background: linear-gradient(90deg, #4A00E0, #8E2DE2);
+    border: none;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 1rem 0;
+    box-shadow: 0 4px 15px rgba(74, 0, 224, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.action-btn:hover {
+    background: linear-gradient(90deg, #8E2DE2, #4A00E0);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(74, 0, 224, 0.4);
+}
+
+.action-btn:active {
+    transform: translateY(1px);
+}
+
+/* Remove any individual button styles */
+#process-btn, #decode-btn {
+    /* Remove all individual styles */
+}

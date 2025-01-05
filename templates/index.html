@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Tokenization</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', path='/favicon.ico') }}">
+</head>
+<body style="background: #000428;">
+    <div class="container">
+        <h1 style="text-align: center; margin: 2rem 0; color: #ffffff; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);">
+            Tokenization
+        </h1>
+        
+        <!-- Description Section -->
+        <div class="description-section">
+            <p class="description-text">
+                Text tokenization using Byte Pair Encoding (BPE). Supports Indian language.
+            </p>
+            <div class="sample-section">
+                <h3>Try with samples:</h3>
+                <div class="sample-buttons">
+                    <button class="sample-btn" data-sample="1">Sample 1</button>
+                    <button class="sample-btn" data-sample="2">Sample 2</button>
+                    <button class="sample-btn" data-sample="3">Sample 3</button>
+                </div>
+                <div class="separator">
+                    <span>or</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- File Upload Section -->
+        <div id="upload-section">
+            <input type="file" id="file-input" accept=".txt" style="display: none;">
+            <button id="upload-btn" class="glow-button">Upload Text File</button>
+        </div>
+
+        <!-- Text Display Section -->
+        <div id="text-section" class="hidden">
+            <h2>Original Text:</h2>
+            <div id="original-data" class="text-box"></div>
+            <button id="process-btn" class="action-btn">Encode Text</button>
+            <div id="process-description" class="operation-description hidden"></div>
+        </div>
+
+        <!-- Processed Data Section -->
+        <div id="processed-section" class="hidden">
+            <h2>Tokens:</h2>
+            <div id="processed-data" class="text-box"></div>
+            <button id="decode-btn" class="action-btn">Decode Tokens</button>
+        </div>
+
+        <!-- Decoded Data Section -->
+        <div id="decoded-section" class="hidden">
+            <h2>Decoded Text:</h2>
+            <div id="decoded-data" class="text-box"></div>
+        </div>
+
+        <!-- Reset Button -->
+        <button id="reset-btn" class="btn hidden">Reset</button>
+    </div>
+
+    <script src="{{ url_for('static', path='/js/script.js') }}"></script>
+</body>
+</html> 
